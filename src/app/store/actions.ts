@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
-import { StockEntry } from './state';
-import { Stock } from './stock';
+import { StockEntry } from '../entity/state';
+import { Stock } from '../entity/stock';
 
 export const loadStocks = createAction(
     '[Stocks] Load'

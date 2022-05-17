@@ -4,10 +4,10 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { select, Store } from '@ngrx/store';
 import { map, startWith, switchMap } from 'rxjs';
-import { loadStocks, selectStock } from './actions';
-import { selecStockById, selectAllStockEntries, selectSelectedStock } from './selectors';
-import { AppState } from './state';
-import { Stock } from './stock';
+import { loadStocks, selectStock } from '../store/actions';
+import { selecStockById, selectAllStockEntries, selectSelectedStock } from '../store/selectors';
+import { AppState } from '../entity/state';
+import { Stock } from '../entity/stock';
 
 @Component({
   selector: 'stocks',
@@ -20,7 +20,7 @@ export class StocksComponent{
   objects: Stock[] = []
   stock: Stock | undefined;
 
-  constructor(readonly client: HttpClient, readonly store: Store<AppState>) {
+  constructor(readonly store: Store<AppState>) {
     this.autocomplete.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
