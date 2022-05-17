@@ -17,16 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
-import { StoreModule } from '@ngrx/store';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { metaReducers, reducers } from './stocks/reducers';
-import { StocksEffects } from './stocks/effects';
+import { StoreStateModule } from './store/store.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StocksComponent,
+    StocksComponent
   ],
   imports: [
     MatCommonModule,
@@ -45,12 +41,8 @@ import { StocksEffects } from './stocks/effects';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    StoreModule.forRoot(reducers, {
-      metaReducers,
-    }),
-    EffectsModule.forRoot([StocksEffects]),
     BrowserAnimationsModule,
-    StoreDevtoolsModule.instrument(),
+    StoreStateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

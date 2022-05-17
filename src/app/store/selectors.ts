@@ -1,6 +1,6 @@
 import { createSelector, DefaultProjectorFn, MemoizedSelector } from "@ngrx/store";
 import { stockEntryAdapter } from "./reducers";
-import { AppState, StockEntry } from "./state";
+import { AppState, StockEntry } from "../entity/state";
 
 type StockEntrySelector =
     MemoizedSelector<

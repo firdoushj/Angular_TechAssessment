@@ -1,8 +1,8 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { Action, ActionReducerMap, createReducer, MetaReducer, on } from "@ngrx/store";
 import { selectStock, updateStock, updateStocks } from "./actions";
-import { AppState, StockEntry } from "./state";
-import { Stock } from "./stock";
+import { AppState, StockEntry } from "../entity/state";
+import { Stock } from "../entity/stock";
 
 export function sort(a: StockEntry, b: StockEntry): number {
     return a.stock.displaySymbol.localeCompare(b.stock.displaySymbol);

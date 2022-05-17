@@ -5,8 +5,8 @@ import { Store } from "@ngrx/store";
 import { exhaustMap, map, mergeMap, switchMap } from "rxjs";
 import { loadStocks, selectStock, updateStock, updateStocks } from "./actions";
 import { selectAllStockEntities } from "./selectors";
-import { AppState, StockEntry } from "./state";
-import { Price, Stock } from "./stock";
+import { AppState, StockEntry } from "../entity/state";
+import { Price, Stock } from "../entity/stock";
 
 @Injectable()
 export class StocksEffects {
