@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Stock } from 'src/app/entity/stock';
+import { Input } from '@angular/core';
 
 @Component({
   selector: 'app-stockcard',
@@ -7,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockcardComponent implements OnInit {
 
+  @Input() stock?: Stock; 
   constructor() { }
 
   ngOnInit(): void {
