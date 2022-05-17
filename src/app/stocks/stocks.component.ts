@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -14,13 +13,18 @@ import { Stock } from '../entity/stock';
   templateUrl: './stocks.component.html',
   styleUrls: ['./stocks.component.scss'],
 })
-export class StocksComponent{
+export class StocksComponent {
   autocomplete = new FormControl();
   filteredOptions: Stock[] = [];
   objects: Stock[] = []
   stock: Stock | undefined;
-
+  
   constructor(readonly store: Store<AppState>) {
+    /* Removing subscribe logics to ngOnInIt because constructor() should be used to setup Dependency Injection and not much else*/
+  }
+
+  ngOnInit(){
+
     this.autocomplete.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
@@ -37,7 +41,7 @@ export class StocksComponent{
         this.objects = arr;
       });
 
-      this.store.pipe(
+    this.store.pipe(
         select(selectSelectedStock),
         switchMap(s => this.store.select(selecStockById(s.symbol))),
         map(s => s?.stock),
@@ -55,7 +59,7 @@ export class StocksComponent{
     if (!filterValue || filterValue.length < 2) {
       return [];
     }
-
+    
     return this.objects.filter(objects => objects.displaySymbol.toLowerCase().includes(filterValue));
   }
 
