@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { select, Store } from '@ngrx/store';
@@ -8,36 +7,36 @@ import { loadStocks, selectStock } from '../store/actions';
 import { selecStockById, selectAllStockEntries, selectSelectedStock } from '../store/selectors';
 import { AppState } from '../entity/state';
 import { Stock } from '../entity/stock';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'stocks',
   templateUrl: './stocks.component.html',
   styleUrls: ['./stocks.component.scss'],
 })
-export class StocksComponent{
+export class StocksComponent {
   autocomplete = new FormControl();
-  filteredOptions: Stock[] = [];
-  objects: Stock[] = []
+  filteredOptions: Observable<Stock[]>;
+  objects: Stock[] = [];
   stock: Stock | undefined;
+  
 
+  /* removing httoclient to remove unnecessary dependencies */
   constructor(readonly store: Store<AppState>) {
+    this.filteredOptions = this.store.pipe(
+      select(selectAllStockEntries),
+      map(stocks => stocks.map(e => e.stock)));
+  }
+
+  ngOnInit(){
     this.autocomplete.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
-    ).subscribe(
-      v => {
-        this.filteredOptions = v;
-      }
     );
 
-    this.store.pipe(
-      select(selectAllStockEntries),
-      map(stocks => stocks.map(e => e.stock)))
-      .subscribe(arr => {
-        this.objects = arr;
-      });
+    this.filteredOptions.subscribe( arr => this.objects = arr);
 
-      this.store.pipe(
+    this.store.pipe(
         select(selectSelectedStock),
         switchMap(s => this.store.select(selecStockById(s.symbol))),
         map(s => s?.stock),
@@ -55,7 +54,7 @@ export class StocksComponent{
     if (!filterValue || filterValue.length < 2) {
       return [];
     }
-
+    
     return this.objects.filter(objects => objects.displaySymbol.toLowerCase().includes(filterValue));
   }
 
@@ -64,8 +63,9 @@ export class StocksComponent{
   }
 
   public selectSymbol(item: MatAutocompleteSelectedEvent) {
-    console.log(item.option.value);
-    let found = this.objects.find(element => element.symbol == item.option.value);
+    /* Security: should not leave such console.log method in code*/
+    // console.log(item.option.value);
+    let found = this.objects.find(element => element.description == item+"");
 
     if (!found) {
       return;

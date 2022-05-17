@@ -17,12 +17,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
+import { StockServices } from './services/stockservices';
+import { StockcardComponent } from './stocks/stockcard/stockcard.component';
 import { StoreStateModule } from './store/store.module';
+import { HttpServices } from './HttpUtil/httpservice';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StocksComponent
+    StocksComponent,
+    StockcardComponent,
   ],
   imports: [
     MatCommonModule,
@@ -44,7 +48,7 @@ import { StoreStateModule } from './store/store.module';
     BrowserAnimationsModule,
     StoreStateModule
   ],
-  providers: [],
+  providers: [HttpServices,StockServices],
   bootstrap: [AppComponent]
 })
 export class AppModule {
