@@ -4,8 +4,8 @@
       <mat-label>Ticker</mat-label>
       <input type="text" placeholder="Pick one stock ticker" aria-label="Ticker" matInput [formControl]="autocomplete"
         [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectSymbol($event)">
-        <mat-option *ngFor="let option of filteredOptions" [value]="option.symbol">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selectSymbol($event.option.value)">
+        <mat-option *ngFor="let option of (filteredOptions | async)" [value]="option.description">
           <span>{{option.description}}</span> |
           <small>Currency: {{option.currency}}</small>
         </mat-option>
@@ -15,15 +15,5 @@
 
   <button mat-button (click)="callApi()">Refresh</button>
 </mat-card>
+<app-stockcard [stock]="stock"></app-stockcard>
 
-<mat-card *ngIf="stock" class="example-card">
-  <mat-card-subtitle>Symbol</mat-card-subtitle>
-  <mat-card-title>{{stock.displaySymbol}}</mat-card-title>
-  <mat-card-content>
-    {{stock.description}}
-  </mat-card-content>
-  <mat-divider inset></mat-divider>
-  <mat-card-footer>
-    Price: {{stock.price.c}} | Currency: {{stock.currency}}
-  </mat-card-footer>
-</mat-card>
